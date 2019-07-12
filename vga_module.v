@@ -1,8 +1,8 @@
 module vga_module#( 
     parameter
-        ADDR_WIDTH = 17, 
+        ADDR_WIDTH = 13, 
         DATA_WIDTH = 12, 
-        DEPTH =  76_800, // 307_200,//
+        DEPTH =  4_800, // 307_200,//
         HSYNC_CLKS = 800,
         HSYNC_DISPLAY = 640,
         HSYNC_PULSE = 96,
@@ -21,6 +21,7 @@ module vga_module#(
         output o_Hsync,
         output o_Vsync,
         output o_display,
+        output [3:0] o_line_mux,
         output [ADDR_WIDTH-1:0] o_addr_rd,
         input [DATA_WIDTH-1:0] o_data_rd
         );
@@ -28,7 +29,7 @@ module vga_module#(
 //-------Internal registers and wires--------------
 wire w_v_display;
 wire w_h_display;
-wire [9:0] pixel;
+wire [9:0] column;
 wire [8:0] line;
 
 //-------sub modules-------------------------------
@@ -43,7 +44,7 @@ horizontal_counter #(
         .clk(clk),
         .o_Hsync(o_Hsync),
         .o_h_display(w_h_display),
-        .o_h_pixel(pixel)
+        .o_h_pixel(column)
         );
 
 vertical_counter #( 
@@ -66,11 +67,12 @@ assign o_vgaBlue = o_display ? o_data_rd[3:0] : 4'h0;
 assign o_vgaGreen = o_display ? o_data_rd[7:4] : 4'h0;
 
 /*
-assign o_addr_rd = (((line*HSYNC_DISPLAY) + pixel + 1) == HSYNC_DISPLAY * VSYNC_DISPLAY ) ?
-                        'h0 : ((line[8:1]) * HSYNC_DISPLAY/2 ) + pixel[9:1] + 1 ;   // get next pixel
+assign o_addr_rd = (((line*HSYNC_DISPLAY) + column + 1) == HSYNC_DISPLAY * VSYNC_DISPLAY ) ?
+                        'h0 : ((line[8:1]) * HSYNC_DISPLAY/2 ) + column[9:1] + 1 ;   // get next pixel
 */
 assign o_addr_rd =  
-                    ((line[8:1]) * 'd320 ) + pixel[9:1];// + 1;
+                    ((line[4:1]) * 'd320 ) + column[9:1];// + 1;
 
+assign o_line_mux = line[8:5];
 
 endmodule

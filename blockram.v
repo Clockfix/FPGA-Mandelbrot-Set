@@ -7,10 +7,10 @@
 // Dual-Port Block RAM with Two Write Ports
 // File: rams_tdp_rf_rf.v
 
-module rams_tdp_rf_rf #( parameter
-    DEPTH =  307_200,//76_800,
-    ADDR_WIDTH = 17, 
-    DATA_WIDTH = 8 ) (clka,clkb,ena,enb,wea,web,addra,addrb,dia,dib,doa,dob);
+module blockram #( parameter
+    DEPTH =  4_800,//307_200,//76_800,
+    ADDR_WIDTH = 13, 
+    DATA_WIDTH = 12 ) (clka,clkb,ena,enb,wea,web,addra,addrb,dia,dib,doa,dob);
 
 input clka,clkb,ena,enb,wea,web;
 input [ADDR_WIDTH-1:0] addra,addrb;

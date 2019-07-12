@@ -1,4 +1,4 @@
-# FPGA-Mandelbrot-Set (Not finished)
+# FPGA Mandelbrot Set on Digilent Basys3 Xilinx Artix 7 (Not finished)
 Mandelbrot set visualization 
 
 ![picture](http://people.ece.cornell.edu/land/courses/ece5760/LABS/s2019/lab3_mandelbrot_rectangle.png)
