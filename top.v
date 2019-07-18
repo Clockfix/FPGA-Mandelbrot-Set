@@ -31,14 +31,14 @@ module top #( parameter
     output [3:0]    vgaBlue,
     output [3:0]    vgaGreen,
     output          Hsync,
-    output          Vsync,
-    input [2:0]     sw,
-    //UART 
-    input           RsRx,         // UART RX Data
-    output          RsTx,        // UART TX Data
-    // 7 segment
-    output  [6:0]   seg, 
-    output  [3:0]   an  
+    output          Vsync//,
+    // input [2:0]     sw,
+    // //UART 
+    // input           RsRx,         // UART RX Data
+    // output          RsTx,        // UART TX Data
+    // // 7 segment
+    // output  [6:0]   seg, 
+    // output  [3:0]   an  
     );
 
 //------internal wires and registers--------
@@ -56,7 +56,7 @@ wire [ADDR_WIDTH-1:0] w_com_addr_rd;
 
 wire [3:0] w_vga_line_mux;
 
-//  wire [ADDR_WIDTH-1:0] w_addrb;
+wire [ADDR_WIDTH-1:0] w_addr_rd;
 
 wire [DATA_WIDTH-1:0] w_data_rd;
 wire [DATA_WIDTH-1:0] w_data_rd0;
@@ -100,7 +100,6 @@ pattern_gen #(
     .SPEED(SPEED)
 ) pattern_gen1 (
     .clk(clk),
-//    .sw(sw[1]),
     .i_enable(w_enable),
     .o_addr(w_addr_wr),
     .o_data(w_data_wr),
@@ -132,7 +131,7 @@ vga_module #(
     .o_display(),
     .o_line_mux(w_vga_line_mux),
     .o_addr_rd(w_addr_rd),
-    .o_data_rd(r_data_rd)
+    .i_data_rd(w_data_rd)
    );
 
 // com_to_mem #( 
@@ -169,23 +168,23 @@ mux #(
     .DATA_WIDTH(DATA_WIDTH), 
     .SELECT_WIDTH('d4)) 
 mux1(
-    select(w_vga_line_mux),
-    d0(w_data_rd0),
-    d1(w_data_rd1),
-    d2(w_data_rd2),
-    d3(w_data_rd3),
-    d4(w_data_rd4),
-    d5(w_data_rd5),
-    d6(w_data_rd6),
-    d7(w_data_rd7),
-    d8(w_data_rd8),
-    d9(w_data_rd9),
-    d10(w_data_rd10),
-    d11(w_data_rd11),
-    d12(w_data_rd12),
-    d13(w_data_rd13),
-    d14(w_data_rd14),
-    q(w_data_rd));
+    .select(w_vga_line_mux),
+    .d0(w_data_rd0),
+    .d1(w_data_rd1),
+    .d2(w_data_rd2),
+    .d3(w_data_rd3),
+    .d4(w_data_rd4),
+    .d5(w_data_rd5),
+    .d6(w_data_rd6),
+    .d7(w_data_rd7),
+    .d8(w_data_rd8),
+    .d9(w_data_rd9),
+    .d10(w_data_rd10),
+    .d11(w_data_rd11),
+    .d12(w_data_rd12),
+    .d13(w_data_rd13),
+    .d14(w_data_rd14),
+    .o_q(w_data_rd));
 
 
 

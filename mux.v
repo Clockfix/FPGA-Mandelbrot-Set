@@ -41,7 +41,7 @@ begin
        'd12 : q <= d12;
        'd13 : q <= d13;
        'd14 : q <= d14;
-       default : q <= 12'd0;
+       default : q <= d0;
    endcase
 end
 

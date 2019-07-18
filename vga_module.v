@@ -23,7 +23,7 @@ module vga_module#(
         output o_display,
         output [3:0] o_line_mux,
         output [ADDR_WIDTH-1:0] o_addr_rd,
-        input [DATA_WIDTH-1:0] o_data_rd
+        input [DATA_WIDTH-1:0] i_data_rd
         );
 
 //-------Internal registers and wires--------------
@@ -62,9 +62,9 @@ vertical_counter #(
         );
 
 assign o_display = (w_v_display && w_h_display) ;
-assign o_vgaRed = o_display ? o_data_rd[11:8] : 4'h0;
-assign o_vgaBlue = o_display ? o_data_rd[3:0] : 4'h0; 
-assign o_vgaGreen = o_display ? o_data_rd[7:4] : 4'h0;
+assign o_vgaRed = o_display ? i_data_rd[11:8] : 4'h0;
+assign o_vgaBlue = o_display ? i_data_rd[3:0] : 4'h0; 
+assign o_vgaGreen = o_display ? i_data_rd[7:4] : 4'h0;
 
 /*
 assign o_addr_rd = (((line*HSYNC_DISPLAY) + column + 1) == HSYNC_DISPLAY * VSYNC_DISPLAY ) ?
