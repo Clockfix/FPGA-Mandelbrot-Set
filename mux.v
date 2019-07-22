@@ -1,27 +1,29 @@
-module mux #( parameter
-    DATA_WIDTH = 12, 
-    SELECT_WIDTH = 4
+module mux #( 
+    // parameter
+    // DATA_WIDTH = 12, 
+    // SELECT_WIDTH = 4
 )(
-    input [SELECT_WIDTH - 1 :0]     select,
-    input [DATA_WIDTH - 1 :0]       d0,
-    input [DATA_WIDTH - 1 :0]       d1,
-    input [DATA_WIDTH - 1 :0]       d2,
-    input [DATA_WIDTH - 1 :0]       d3,
-    input [DATA_WIDTH - 1 :0]       d4,
-    input [DATA_WIDTH - 1 :0]       d5,
-    input [DATA_WIDTH - 1 :0]       d6,
-    input [DATA_WIDTH - 1 :0]       d7,
-    input [DATA_WIDTH - 1 :0]       d8,
-    input [DATA_WIDTH - 1 :0]       d9,
-    input [DATA_WIDTH - 1 :0]       d10,
-    input [DATA_WIDTH - 1 :0]       d11,
-    input [DATA_WIDTH - 1 :0]       d12,
-    input [DATA_WIDTH - 1 :0]       d13,
-    input [DATA_WIDTH - 1 :0]       d14,
-    output[DATA_WIDTH - 1 :0]      o_q  
+    input [3 :0]     select,
+    input [11 :0]       d0,
+    input [11 :0]       d1,
+    input [11 :0]       d2,
+    input [11 :0]       d3,
+    input [11 :0]       d4,
+    input [11 :0]       d5,
+    input [11 :0]       d6,
+    input [11 :0]       d7,
+    input [11 :0]       d8,
+    input [11 :0]       d9,
+    input [11 :0]       d10,
+    input [11 :0]       d11,
+    input [11 :0]       d12,
+    input [11 :0]       d13,
+    input [11 :0]       d14,
+    input [11 :0]       d15,
+    output[11 :0]       o_q  
 );
 
-reg [DATA_WIDTH - 1 :0]      q ;
+reg [11 : 0]      q;
 
 always @*
 begin
@@ -41,7 +43,7 @@ begin
        'd12 : q <= d12;
        'd13 : q <= d13;
        'd14 : q <= d14;
-       default : q <= d0;
+       'd15 : q <= d15;
    endcase
 end
 

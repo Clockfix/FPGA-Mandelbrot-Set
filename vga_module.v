@@ -71,8 +71,9 @@ assign o_addr_rd = (((line*HSYNC_DISPLAY) + column + 1) == HSYNC_DISPLAY * VSYNC
                         'h0 : ((line[8:1]) * HSYNC_DISPLAY/2 ) + column[9:1] + 1 ;   // get next pixel
 */
 assign o_addr_rd =  
-                    ((line[4:1]) * 'd320 ) + column[9:1];// + 1;
+                    ((line[8:5]) * 'd320 ) + column[9:1];// + 1;
 
-assign o_line_mux = line[8:5];
+//assign o_line_mux = line[8:5];
+assign o_line_mux = line[4:1];
 
 endmodule

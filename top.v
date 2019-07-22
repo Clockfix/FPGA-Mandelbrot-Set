@@ -11,7 +11,7 @@ module top #( parameter
     //memory parameters
     ADDR_WIDTH = 13, // 
     DATA_WIDTH = 12, 
-    DEPTH =  5_120, // ( 320 * 16 ) 
+    DEPTH =  4_800, // ( 320 * 15 ) 
     //VGA parameters
     HSYNC_CLKS = 800,
     HSYNC_DISPLAY = 640,
@@ -74,6 +74,7 @@ wire [DATA_WIDTH-1:0] w_data_rd11;
 wire [DATA_WIDTH-1:0] w_data_rd12;
 wire [DATA_WIDTH-1:0] w_data_rd13;
 wire [DATA_WIDTH-1:0] w_data_rd14;
+wire [DATA_WIDTH-1:0] w_data_rd15;
 
 //-----sub modules--------------------------
 clock_enable_param #(
@@ -165,8 +166,9 @@ vga_module #(
 // );
 
 mux #(
-    .DATA_WIDTH(DATA_WIDTH), 
-    .SELECT_WIDTH('d4)) 
+    // .DATA_WIDTH(DATA_WIDTH), 
+    // .SELECT_WIDTH('d4)
+    ) 
 mux1(
     .select(w_vga_line_mux),
     .d0(w_data_rd0),
@@ -184,6 +186,7 @@ mux1(
     .d12(w_data_rd12),
     .d13(w_data_rd13),
     .d14(w_data_rd14),
+    .d15(w_data_rd15),
     .o_q(w_data_rd));
 
 
@@ -518,5 +521,26 @@ bram14(
     //.web(),
     //.dib(),
     .dob(w_data_rd14));
+
+blockram #( 
+    .DEPTH(DEPTH),
+    .ADDR_WIDTH(ADDR_WIDTH), 
+    .DATA_WIDTH(DATA_WIDTH)) 
+bram15(
+    // -------------------------PORT A (write)
+    .clka(clk),
+    .ena(  1'b1  /*w_enable*/),
+    .wea( w_write ),
+    .addra( w_addr_wr ),
+    .dia( w_data_wr ),
+    .doa(   ),
+
+    //---------------------------PORT B (read)
+    .clkb(clk),
+    .addrb( w_addr_rd ),
+    .enb(w_enable),
+    //.web(),
+    //.dib(),
+    .dob(w_data_rd15));
 
 endmodule
