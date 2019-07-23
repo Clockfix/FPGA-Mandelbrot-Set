@@ -10,3 +10,15 @@ Lectures:
 * https://www.youtube.com/watch?v=7rIjuQZSby0
 * https://www.youtube.com/watch?v=vxSoiG242OA&t=911s
 
+## Math 
+
+Calculations are performed using floating point
+
+   | Sign | Exponent  | Mantissa |  
+   | 1bit |   8bits   |  18bits  |
+
+   2^0 => Exponent = 'd127 = 'h7f
+
+   Mantissa = [ ( 1-2^(-126) ) ; 0.5 ]
+   
+   
