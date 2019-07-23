@@ -9,7 +9,7 @@
 %   
 %
 clear all;
-x = 4/320 ; % number to convert
+x = -780*680 * 0.5^1; % number to convert
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 exponent = 127;
 %
@@ -57,7 +57,7 @@ end
 % Mantissa
 x_ufi = ufi(x_new,19,18);
 temp = [x_ufi.bin];
-for n=18:-1:0
+for n=17:-1:0
     string_bin = [string_bin, temp(end-n)];
 end
 string_hex = dec2hex(bin2dec(string_bin),7);
