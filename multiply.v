@@ -19,45 +19,42 @@ module multiply #(
     input            clk,
     input [ 26 :0]   input_a,
     input [ 26 :0]   input_b,
+
     output [ 26 :0]  output_q,
-    
     output           underflow
 );
 
-reg [35 : 0 ] reg_multiply = 0; // for mantissa
-reg [8 : 0 ]  reg_summ1 = 0;     // for exponent
-reg [8 : 0 ]  reg_summ2 = 0;     // for exponent if reg_multiply smaler then 0.5(decimal)
-reg           reg_sign = 0;     // for sign
+reg [35 : 0 ] reg_multiply = 0;     // for mantissa
+reg [8 : 0 ]  reg_summ1 = 0;        // for exponent
+reg [8 : 0 ]  reg_summ2 = 0;        // for exponent if reg_multiply smaler then 0.5(decimal)
+reg           reg_sign = 0;         // for sign
 reg [17 : 0 ] reg_mantissa1 = 0;  
-reg [17 : 0 ] reg_mantissa2 = 0;    //  if reg_multiply smaler then 0.5(decimal)
+reg [17 : 0 ] reg_mantissa2 = 0;    // if reg_multiply smaler then 0.5(decimal)
 reg [8 : 0 ]  reg_summ3 = 0;        // use in comarison and testbench
 
 always@(posedge clk) begin
-    if (input_a[17:0] == 0 || input_b[17:0] == 0) begin
+    if (input_a[17:0] == 0 || input_b[17:0] == 0) begin  // if one of numbers are 0
         reg_multiply <= 0;
         reg_summ1 <= 0 ;
         reg_summ2 <= 0 ;
         reg_sign <= 0;
         end
     else begin
-        reg_multiply <= input_a[17:0] * input_b[17:0];
-        reg_summ1 <= input_a[25:18] + input_b[25:18] - 8'h7F ;
+        reg_multiply <= input_a[17:0] * input_b[17:0];          // multiply mantisa
+        reg_summ1 <= input_a[25:18] + input_b[25:18] - 8'h7F ;  // add exponents
         reg_summ2 <= input_a[25:18] + input_b[25:18] - 8'h80 ;
-        reg_sign <= input_a[26] ^ input_b[26];
+        reg_sign <= input_a[26] ^ input_b[26];                  // determine sign of resulting number
         end
 end
 
 always@* begin
     reg_mantissa1 <= reg_multiply >> 18 ; 
-    reg_mantissa2 <= reg_multiply >> 17 ;           //  if reg_multiply smaler then 0.5(decimal)
-    reg_summ3 <= input_a[25:18] + input_b[25:18];   // use in comarison and testbench
+    reg_mantissa2 <= reg_multiply >> 17 ;           // if reg_multiply smaler then 0.5(decimal)
+    reg_summ3 <= input_a[25:18] + input_b[25:18];   // use in comparison and testbench
 end
 
-assign underflow =  reg_summ3
-                    //(input_a[25:18] + input_b[25:18]) 
-                    < 8'h7F     
-                        ? 1'b1 : 1'b0
-                    ;
+assign underflow =  reg_summ3 < 8'h7F     
+                        ? 1'b1 : 1'b0 ;
 
 
 assign output_q  = reg_multiply[35]  ? 
